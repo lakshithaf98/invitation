@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Secret for You</title>
+    <title>Secret For You</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,148 +17,190 @@
             --text-dark: #5e503f;
             --env-color: #ffffff; 
             --env-dark: #f8edeb;
-            /* YOUR BEAUTIFUL IMAGE LINK */
+            --whatsapp-green: #25D366;
             --main-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=1000');
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
 
+        /* --- FALLING ELEMENTS --- */
+        .petal {
+            position: fixed; top: -10%; pointer-events: none; z-index: 4000;
+            opacity: 0.6; animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
         /* --- ENVELOPE STAGE --- */
         #invitation-intro {
             height: 100vh; display: flex; justify-content: center; align-items: center;
-            background: #fffafa; position: fixed; width: 100%; z-index: 3000;
-            transition: opacity 1s ease; overflow: hidden;
-        }
-
-        /* The Secret Image Hidden inside */
-        .secret-photo-bg {
-            position: absolute; width: 100%; height: 100%;
-            background: var(--main-image) center/cover;
-            opacity: 0; transform: scale(0.5);
-            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1;
-        }
-
-        .envelope-container {
-            width: 320px; height: 220px; position: relative; transform-style: preserve-3d;
-            cursor: pointer; transition: transform 1s ease; z-index: 5;
+            background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), var(--main-image) center/cover;
+            position: fixed; width: 100%; z-index: 3000; transition: opacity 1.2s ease;
         }
         
+        .envelope-container {
+            width: 320px; height: 220px; position: relative; transform-style: preserve-3d;
+            cursor: pointer; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         .envelope-front {
             position: absolute; width: 100%; height: 100%; background: var(--env-color);
             backface-visibility: hidden; display: flex; flex-direction: column;
             justify-content: center; align-items: center; border-radius: 8px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid #eee;
         }
+        #guest-name { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--accent); margin-top: 10px; }
         
-        #guest-name { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--accent); }
-
-        .heart-icon {
-            margin-top: 20px; color: var(--accent); font-size: 1.5rem;
-            animation: pulse 1.5s infinite;
+        /* NEW: Secret Label Animation */
+        .tap-secret {
+            margin-top: 15px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: var(--primary);
+            font-weight: 600;
+            animation: breathe 2s infinite ease-in-out;
+            opacity: 0.7;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
+        @keyframes breathe {
+            0%, 100% { opacity: 0.4; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1); }
         }
 
-        /* --- OPENING ANIMATION --- */
-        .envelope-container.open { transform: translateY(300px) rotateX(-20deg) scale(0.5); opacity: 0; }
-        .reveal-secret .secret-photo-bg { opacity: 1; transform: scale(1); }
+        .envelope-back { position: absolute; width: 100%; height: 100%; background: var(--env-dark); backface-visibility: hidden; transform: rotateY(180deg); }
+        .flap { position: absolute; top: 0; width: 100%; height: 0; border-top: 110px solid var(--env-dark); border-left: 160px solid transparent; border-right: 160px solid transparent; transform-origin: top; transition: 0.6s 0.8s; z-index: 8; }
+        
+        .envelope-container.open { transform: rotateY(180deg) scale(0.9); }
+        .envelope-container.open .flap { transform: rotateX(180deg); }
 
         /* --- MAIN CONTENT --- */
         #main-content { display: none; opacity: 0; transition: 1.5s; }
         
-        .proposal-card {
-            max-width: 500px; margin: 40px auto; background: white; 
-            border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); overflow: hidden;
-            text-align: center; border: 1px solid #eee;
+        header {
+            height: 50vh; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), var(--main-image) center/cover;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
         }
 
-        .card-img { width: 100%; height: 250px; background: var(--main-image) center/cover; }
-        .card-body { padding: 40px 20px; }
+        .proposal-card {
+            max-width: 550px; margin: -80px auto 40px; background: white; 
+            border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); overflow: hidden;
+            text-align: center; position: relative; border: 1px solid #f1e4e2;
+        }
 
-        .title-script { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--accent); }
-        .date-badge { display: inline-block; padding: 10px 25px; background: var(--env-dark); border-radius: 30px; font-weight: 600; margin: 20px 0; }
+        .card-image-top {
+            width: 100%; height: 200px; background: var(--main-image) center/cover;
+            border-bottom: 4px solid var(--env-dark);
+        }
+
+        .card-body { padding: 40px 30px; }
+        
+        .title-script { font-family: 'Dancing Script', cursive; font-size: 3.2rem; color: var(--accent); margin-bottom: 10px; }
+        .date-badge { display: inline-block; padding: 8px 25px; background: var(--env-dark); border-radius: 30px; font-weight: 600; font-size: 0.9rem; margin: 20px 0; }
 
         .btn-action {
-            display: block; width: 100%; max-width: 280px; margin: 15px auto;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; max-width: 280px; margin: 15px auto;
             padding: 16px; border-radius: 50px; text-decoration: none;
-            font-weight: 600; transition: 0.3s; border: none; cursor: pointer; text-align: center;
+            font-weight: 600; transition: 0.3s; border: none; cursor: pointer;
         }
-        .btn-yes { background: var(--accent); color: white; }
+        .btn-yes { background: var(--accent); color: white; box-shadow: 0 10px 20px rgba(226, 149, 120, 0.3); }
+        .btn-contact { background: white; color: var(--accent); border: 2px solid var(--accent); }
 
-        .petal { position: fixed; top: -10%; pointer-events: none; z-index: 4000; animation: fall linear infinite; }
-        @keyframes fall {
-            0% { transform: translateY(0vh) rotate(0deg); opacity: 0; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        .reveal { opacity: 0; transform: translateY(20px); transition: 1s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 480px) {
+            .proposal-card { width: 90%; }
+            .title-script { font-size: 2.5rem; }
         }
     </style>
 </head>
-<body class="">
+<body>
 
     <div id="invitation-intro">
-        <div class="secret-photo-bg"></div>
         <div class="envelope-container" onclick="openInvitation()">
             <div class="envelope-front">
-                <p style="letter-spacing: 3px; font-size: 0.6rem;">DEAREST</p>
+                <p style="letter-spacing: 3px; font-size: 0.6rem; color: #aaa;">DEAREST</p>
                 <div id="guest-name">Bridesmaid</div>
-                <div class="heart-icon"><i class="fa-solid fa-heart"></i></div>
-                <p style="margin-top: 20px; font-size: 0.7rem; opacity: 0.5;">Tap to reveal my secret</p>
+                <div style="margin-top: 20px; width: 40px; height: 40px; background: var(--env-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <p class="tap-secret">Tap to reveal my secret</p>
             </div>
+            <div class="envelope-back"><div class="flap"></div></div>
         </div>
     </div>
 
     <div id="main-content">
-        <div class="proposal-card">
-            <div class="card-img"></div>
-            <div class="card-body">
-                <p style="letter-spacing: 2px; font-size: 0.7rem;">MY DEAR FRIEND</p>
-                <h2 class="title-script">Will you be my Bridesmaid?</h2>
-                <p style="margin: 20px 0; line-height: 1.6; color: #666;">
-                    I'm getting married! I can't imagine standing there without you by my side.
-                </p>
-                <div class="date-badge">MAY 2026 • FIRST WEEK</div>
-                <p style="font-size: 0.8rem; color: #999;">HIKKADUWA, SRI LANKA</p>
-            </div>
-        </div>
+        <header>
+            <h1 class="title-script reveal" style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);">My Dearest Friend</h1>
+        </header>
 
-        <div style="text-align: center; padding-bottom: 50px;">
-            <button class="btn-action btn-yes" onclick="location.href='https://wa.me/94765599166?text=YES! I will be your bridesmaid!'">
-                YES, I'M IN! ✨
-            </button>
-            <p style="font-family: 'Dancing Script'; font-size: 1.5rem; margin-top: 30px;">With Love, Hiruni</p>
-        </div>
+        <section>
+            <div class="proposal-card reveal" id="capture-card">
+                <div class="card-image-top"></div>
+                <div class="card-body">
+                    <p style="letter-spacing: 3px; font-size: 0.75rem; color: var(--primary);">I CAN'T SAY "I DO"</p>
+                    <h2 class="title-script">Without You!</h2>
+                    
+                    <p style="margin: 20px 0; line-height: 1.6; font-size: 0.95rem;">
+                        Life's biggest moments are better with friends like you. 
+                        As I step into this new chapter, I would be honored to have you by my side.
+                    </p>
+
+                    <h3 style="font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; color: #444;">Will you be my Bridesmaid?</h3>
+
+                    <div class="date-badge">MAY 2026 • FIRST WEEK</div>
+                    
+                    <p style="font-size: 0.85rem; color: #999;">
+                        <i class="fa-solid fa-location-dot"></i> Hikkaduwa, Sri Lanka
+                    </p>
+                </div>
+            </div>
+
+            <div class="reveal" style="text-align: center; padding: 20px;">
+                <button class="btn-action btn-yes" onclick="location.href='https://wa.me/94765599166?text=YES! Count me in as your bridesmaid!'">
+                    <i class="fa-solid fa-check"></i> YES, I'M IN!
+                </button>
+                <button class="btn-action btn-contact" onclick="downloadInvitation()">
+                    <i class="fa-solid fa-download"></i> SAVE INVITATION
+                </button>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 60px 0; background: #fff;">
+            <p style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--accent);">With Love, Hiruni</p>
+        </footer>
     </div>
 
     <script>
         function openInvitation() {
-            const intro = document.getElementById('invitation-intro');
-            const envelope = document.querySelector('.envelope-container');
-            
-            // 1. Zoom out envelope
-            envelope.classList.add('open');
-            
-            // 2. Reveal the "Secret" background photo
-            intro.classList.add('reveal-secret');
-
+            document.querySelector('.envelope-container').classList.add('open');
             setTimeout(() => {
-                intro.style.opacity = '0';
+                document.getElementById('invitation-intro').style.opacity = '0';
                 setTimeout(() => {
-                    intro.style.display = 'none';
+                    document.getElementById('invitation-intro').style.display = 'none';
                     document.getElementById('main-content').style.display = 'block';
                     setTimeout(() => { 
                         document.getElementById('main-content').style.opacity = '1'; 
+                        reveal(); 
                     }, 50);
                 }, 1000);
-            }, 2500); // Allow time for the photo reveal animation
+            }, 1800);
         }
 
+        function reveal() {
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
+            });
+        }
+        window.addEventListener("scroll", reveal);
+
         function createPetals() {
-            const symbols = ['🌸', '✨', '🤍'];
+            const symbols = ['🌸', '✨', '💍', '🤍'];
             for(let i=0; i<20; i++) {
                 let petal = document.createElement('div');
                 petal.className = 'petal';
@@ -166,13 +208,27 @@
                 petal.style.left = Math.random() * 100 + 'vw';
                 petal.style.fontSize = (Math.random() * 10 + 15) + 'px';
                 petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                petal.style.animationDelay = (Math.random() * 5) + 's';
                 document.body.appendChild(petal);
             }
         }
 
+        function downloadInvitation() {
+            const card = document.getElementById("capture-card");
+            html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
+                const link = document.createElement("a");
+                link.download = "Bridesmaid_Proposal_Hiruni.png";
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
         window.onload = () => {
             const name = new URLSearchParams(window.location.search).get('name');
-            if(name) document.getElementById('guest-name').innerText = name.replace(/\+/g, ' ');
+            if(name) {
+                const clean = name.replace(/\+/g, ' ');
+                document.getElementById('guest-name').innerText = clean;
+            }
             createPetals();
         };
     </script>
