@@ -12,6 +12,8 @@
             --dark-pink: #c9184a;
             --gold: #ffb703;
             --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            /* --- BACKGROUND IMAGE FIX --- */
+            --bg-image: url('https://lh3.googleusercontent.com/d/1acfIgoow2_9MfZ5HdGbX3glaAAsK72uF');
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,17 +26,14 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            background-color: #fff;
         }
 
-        /* --- Full Background Image --- */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            /* BACKGROUND PHOTO */
-            background-image: url('https://drive.google.com/uc?export=download&id=1acfIgoow2_9MfZ5HdGbX3glaAAsK72uF');
+            background-image: var(--bg-image);
             background-size: cover;
             background-position: center;
             z-index: -2;
@@ -49,7 +48,6 @@
             z-index: -1;
         }
 
-        /* --- Gift Wrap Section --- */
         #gift-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -84,7 +82,6 @@
 
         .unlocked #gift-overlay { transform: translateY(100%); }
 
-        /* --- Main Content --- */
         .card-content {
             padding: 50px 20px;
             width: 100%;
@@ -96,12 +93,12 @@
 
         .unlocked .card-content { opacity: 1; }
 
-        h1 { color: var(--dark-pink); font-size: 2.5rem; margin-bottom: 20px; text-shadow: 2px 2px white; }
+        h1 { color: var(--dark-pink); font-size: 2.5rem; margin-bottom: 20px; }
 
         .quote-container {
             min-height: 80px;
             margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.6);
             padding: 15px;
             border-radius: 15px;
             border-left: 5px solid var(--pink);
@@ -109,7 +106,6 @@
 
         #typing-text { font-style: italic; color: #333; font-size: 1.2rem; line-height: 1.6; display: inline; }
 
-        /* --- Calendar --- */
         .calendar-card {
             background: white;
             border-radius: 20px;
@@ -134,43 +130,40 @@
             z-index: -1;
         }
 
-        /* --- Auto-Slide Gallery --- */
-        .gallery-wrapper {
-            width: 100%;
-            overflow: hidden;
-            margin-bottom: 40px;
-            border-radius: 15px;
-        }
-
         .gallery-scroll {
-            display: flex;
-            transition: transform 0.8s ease-in-out;
-            width: 100%;
+            display: flex; overflow-x: auto;
+            gap: 20px; padding: 20px 5px;
+            scrollbar-width: none;
         }
 
         .photo-card {
-            flex: 0 0 100%;
-            display: flex;
-            justify-content: center;
-            padding: 20px 0;
+            flex: 0 0 260px;
+            background: white; padding: 10px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        .photo-card img { 
-            width: 280px; 
-            height: 350px; 
-            object-fit: cover; 
-            border-radius: 12px; 
-            border: 8px solid white;
-            box-shadow: var(--card-shadow);
+        .photo-card img { width: 100%; height: 320px; object-fit: cover; border-radius: 8px; }
+
+        @keyframes photofadeup {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0) rotate(var(--r)); }
         }
+
+        .unlocked .photo-card { animation: photofadeup 1s ease-out forwards; }
+        .unlocked .photo-card:nth-child(1) { animation-delay: 2.3s; --r: -3deg; }
+        .unlocked .photo-card:nth-child(2) { animation-delay: 3s; --r: 2deg; }
+        .unlocked .photo-card:nth-child(3) { animation-delay: 3.7s; --r: -1deg; }
 
         .footer-message {
             margin: 40px 0;
             font-size: 1.1rem;
             color: var(--dark-pink);
             font-weight: bold;
-            background: rgba(255, 255, 255, 0.65);
-            padding: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px;
             border-radius: 10px;
         }
 
@@ -200,16 +193,15 @@
                 <div class="day-label">S</div><div class="day-label">M</div><div class="day-label">T</div><div class="day-label">W</div><div class="day-label">T</div><div class="day-label">F</div><div class="day-label">S</div>
                 <span class="date">1</span><span class="date">2</span><span class="date">3</span><span class="date">4</span><span class="date">5</span><span class="date">6</span><span class="date">7</span>
                 <span class="date">8</span><span class="date">9</span><span class="date">10</span><span class="date">11</span><span class="date">12</span><span class="date">13</span>
-                <span class="date marked">14</span> <span class="date">15</span><span class="date">16</span><span class="date">17</span><span class="date">18</span><span class="date">19</span><span class="date">20</span><span class="date">21</span>
+                <span class="date marked">14</span>
+                <span class="date">15</span><span class="date">16</span><span class="date">17</span><span class="date">18</span><span class="date">19</span><span class="date">20</span><span class="date">21</span>
             </div>
         </div>
 
-        <div class="gallery-wrapper">
-            <div class="gallery-scroll" id="autoGallery">
-                <div class="photo-card"><img src="https://drive.google.com/uc?export=download&id=1zibq288QEn_IK48YebJgmXcIvIlk58IE"></div>
-                <div class="photo-card"><img src="https://drive.google.com/uc?export=download&id=1K1t-qGSkCxNNGPqvjfmpSbCzx-XaVbJ9"></div>
-                <div class="photo-card"><img src="https://drive.google.com/uc?export=download&id=16wjzEXe56uQ_iQpp2CgbS9etpLGGhI5l"></div>
-            </div>
+        <div class="gallery-scroll">
+            <div class="photo-card"><img src="https://lh3.googleusercontent.com/d/1zibq288QEn_IK48YebJgmXcIvIlk58IE"></div>
+            <div class="photo-card"><img src="https://lh3.googleusercontent.com/d/1K1t-qGSkCxNNGPqvjfmpSbCzx-XaVbJ9"></div>
+            <div class="photo-card"><img src="https://lh3.googleusercontent.com/d/16wjzEXe56uQ_iQpp2CgbS9etpLGGhI5l"></div>
         </div>
 
         <div class="footer-message">
@@ -229,23 +221,11 @@
             }
         }
 
-        let currentSlide = 0;
-        function startAutoSlide() {
-            const gallery = document.getElementById("autoGallery");
-            const slides = document.querySelectorAll(".photo-card");
-            if (slides.length === 0) return;
-            setInterval(() => {
-                currentSlide = (currentSlide + 1) % slides.length;
-                gallery.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }, 3000); 
-        }
-
         function openCard() {
             document.body.classList.add('unlocked');
             setTimeout(typeEffect, 1200);
-            setTimeout(startAutoSlide, 2000);
 
-            var end = Date.now() + (3 * 1000);
+            var end = Date.now() + (3 * 1000); // Kola kali adu kala
             (function frame() {
               confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 } });
               confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 } });
