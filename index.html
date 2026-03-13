@@ -11,8 +11,8 @@
             --pink: #ff4d6d;
             --dark-pink: #c9184a;
             --gold: #ffb703;
-            --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            /* MEHATA OYA KIYAPU COUPLE IMAGE EKAMA DANNA */
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            /* MEHATA COUPLE IMAGE EKAK DANNA */
             --bg-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1000');
         }
 
@@ -26,7 +26,6 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            position: relative;
         }
 
         /* --- Full Background Image --- */
@@ -41,13 +40,13 @@
             z-index: -2;
         }
 
-        /* --- White Opacity Layer --- */
+        /* --- White Faded Overlay (Poddak adu kala image eka penna) --- */
         body::after {
             content: "";
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.82); /* Suudu paata opacity eka */
+            background: rgba(255, 255, 255, 0.75); 
             z-index: -1;
         }
 
@@ -64,15 +63,8 @@
             transition: transform 1.2s cubic-bezier(0.9, 0, 0.1, 1);
         }
 
-        .ribbon-v {
-            position: absolute; width: 70px; height: 100%;
-            background: var(--gold); box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
-
-        .ribbon-h {
-            position: absolute; width: 100%; height: 70px;
-            background: var(--gold); box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
+        .ribbon-v { position: absolute; width: 70px; height: 100%; background: var(--gold); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+        .ribbon-h { position: absolute; width: 100%; height: 70px; background: var(--gold); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
 
         .tap-circle {
             width: 140px; height: 140px;
@@ -98,7 +90,7 @@
             width: 100%;
             max-width: 480px;
             opacity: 0;
-            transition: opacity 1.5s ease-in;
+            transition: opacity 1s;
             z-index: 10;
         }
 
@@ -106,30 +98,50 @@
 
         h1 {
             color: var(--dark-pink);
-            font-size: 2.6rem;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
         }
 
-        .quote-box {
-            margin: 20px 0 40px;
+        /* Typing Animation Area */
+        .quote-container {
+            min-height: 80px; /* Text eka liyawenakamma space eka thiyaganna */
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 5px solid var(--pink);
+        }
+
+        #typing-text {
             font-style: italic;
-            color: #444;
+            color: #333;
             font-size: 1.2rem;
             line-height: 1.6;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 10px;
+            display: inline;
+        }
+
+        /* Cursor blinking effect */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: var(--pink);
+            margin-left: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
         /* --- Calendar Section --- */
         .calendar-card {
             background: white;
-            margin: 0 auto 40px;
             border-radius: 20px;
             box-shadow: var(--card-shadow);
             overflow: hidden;
             border: 3px solid var(--pink);
+            margin-bottom: 40px;
         }
 
         .cal-header {
@@ -146,7 +158,6 @@
         .day-label { font-weight: bold; color: var(--pink); font-size: 0.85rem; padding-bottom: 10px; }
         .date { padding: 12px 0; font-size: 1rem; position: relative; color: #333; }
         
-        /* Heta date eke hart eka fix kara */
         .marked {
             color: white !important;
             z-index: 2;
@@ -203,7 +214,7 @@
         <div class="ribbon-v"></div>
         <div class="ribbon-h"></div>
         <div class="tap-circle">
-            <span style="font-weight: bold; color: var(--dark-pink); font-size: 12px;">TAP TO OPEN</span>
+            <span style="font-weight: bold; color: var(--dark-pink); font-size: 12px;">OPEN SURPRISE</span>
             <div style="font-size: 45px;">🎁</div>
         </div>
     </div>
@@ -211,8 +222,8 @@
     <div class="card-content">
         <h1>Happy 2nd Anniversary!</h1>
 
-        <div class="quote-box">
-            "Two years of love, laughter, and beautiful memories. I’m so lucky to have you by my side. ❤️"
+        <div class="quote-container">
+            <span id="typing-text"></span><span class="cursor">|</span>
         </div>
 
         <div class="calendar-card">
@@ -229,25 +240,35 @@
         </div>
 
         <div class="gallery-scroll">
-            <div class="photo-card" style="--r: -3deg;">
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" alt="Memory 1">
-            </div>
-            <div class="photo-card" style="--r: 2deg;">
-                <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" alt="Memory 2">
-            </div>
-            <div class="photo-card" style="--r: -1deg;">
-                <img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=500" alt="Memory 3">
-            </div>
+            <div class="photo-card" style="--r: -3deg;"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500"></div>
+            <div class="photo-card" style="--r: 2deg;"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500"></div>
+            <div class="photo-card" style="--r: -1deg;"><img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=500"></div>
         </div>
 
         <div class="footer-message">
-            <p>With Love, <br> Your Wifey ❤️</p>
+            <p>With Lots of Love, <br> Your Wifey ❤️</p>
         </div>
     </div>
 
     <script>
+        const quote = "Two years of love, laughter, and beautiful memories. I’m so lucky to have you by my side. Cheers to many more! ❤️";
+        let index = 0;
+
+        function typeEffect() {
+            if (index < quote.length) {
+                document.getElementById("typing-text").innerHTML += quote.charAt(index);
+                index++;
+                setTimeout(typeEffect, 50); // Speed of typing
+            } else {
+                document.querySelector(".cursor").style.display = "none"; // Hide cursor when done
+            }
+        }
+
         function openCard() {
             document.body.classList.add('unlocked');
+
+            // Start Typing Animation after card opens
+            setTimeout(typeEffect, 1200);
 
             // Confetti
             var end = Date.now() + (5 * 1000);
