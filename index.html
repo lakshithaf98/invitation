@@ -32,6 +32,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
+            /* Lassan romantic background image ekak */
             background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1000');
             background-size: cover;
             background-position: center;
@@ -105,7 +106,7 @@
 
         .hero-img {
             width: 100%;
-            height: 200px;
+            height: 250px;
             object-fit: cover;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -121,7 +122,7 @@
             padding: 0 10px;
         }
 
-        /* --- Corrected Calendar --- */
+        /* --- Fixed Calendar --- */
         .calendar-card {
             background: white;
             border-radius: 20px;
@@ -140,7 +141,7 @@
         }
 
         .day-label { font-weight: bold; color: var(--pink); font-size: 0.8rem; padding: 5px 0; }
-        .date { padding: 8px; font-size: 0.9rem; position: relative; color: #333; }
+        .date { padding: 12px 0; font-size: 0.9rem; position: relative; color: #333; }
         
         .marked { color: white !important; font-weight: bold; }
         .marked::before {
@@ -148,7 +149,7 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             z-index: -1;
         }
 
@@ -192,9 +193,9 @@
         <h1>Happy 2nd Anniversary!</h1>
 
         <div class="hero-section">
-            <img src="https://images.unsplash.com/photo-1516589174184-c68d19671eff?w=500" class="hero-img" alt="Main Photo">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="hero-img" alt="Love Photo">
             <div class="quote-box">
-                "Two years of love, laughter, and beautiful memories. I’m so lucky to have you by my side. Cheers to us! ❤️"
+                "Two years of love, laughter, and beautiful memories. I’m so lucky to have you by my side. ❤️"
             </div>
         </div>
 
@@ -203,18 +204,17 @@
             <div class="cal-grid">
                 <div class="day-label">S</div><div class="day-label">M</div><div class="day-label">T</div><div class="day-label">W</div><div class="day-label">T</div><div class="day-label">F</div><div class="day-label">S</div>
                 
-                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
-                <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
-                <span class="date marked">14</span>
-                <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span>
-                <span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span>
-                <span>29</span><span>30</span><span>31</span><span></span><span></span><span></span><span></span>
+                <span class="date">1</span><span class="date">2</span><span class="date">3</span><span class="date">4</span><span class="date">5</span><span class="date">6</span><span class="date">7</span>
+                <span class="date">8</span><span class="date">9</span><span class="date">10</span><span class="date">11</span><span class="date">12</span><span class="date">13</span>
+                <span class="date marked">14</span> <span class="date">15</span><span class="date">16</span><span class="date">17</span><span class="date">18</span><span class="date">19</span><span class="date">20</span><span class="date">21</span>
+                <span class="date">22</span><span class="date">23</span><span class="date">24</span><span class="date">25</span><span class="date">26</span><span class="date">27</span><span class="date">28</span>
+                <span class="date">29</span><span class="date">30</span><span class="date">31</span>
             </div>
         </div>
 
         <div class="gallery-scroll">
             <div class="photo-card" style="--r: -2deg;"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400"><p>Day 01</p></div>
-            <div class="photo-card" style="--r: 2deg;"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400"><p>Laughter</p></div>
+            <div class="photo-card" style="--r: 2deg;"><img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=400"><p>Laughter</p></div>
             <div class="photo-card" style="--r: -1deg;"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=400"><p>Forever</p></div>
         </div>
 
