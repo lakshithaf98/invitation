@@ -12,6 +12,7 @@
             --dark-pink: #c9184a;
             --gold: #ffb703;
             --white-overlay: rgba(255, 255, 255, 0.88);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,16 +24,17 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            background-color: #fce4ec;
+            align-items: flex-start;
+            position: relative;
         }
 
-        /* --- Background with Faded Image --- */
+        /* --- Background with Faded Couple Image --- */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            /* Lassan romantic background image ekak */
+            /* MEHATA OYA KIYAPU WIDIYATA COUPLE IMAGE EKAK DANNA */
             background-image: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1000');
             background-size: cover;
             background-position: center;
@@ -44,11 +46,11 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: var(--white-overlay);
+            background: var(--white-overlay); /* White opacity overlay */
             z-index: -1;
         }
 
-        /* --- Gift Box Section --- */
+        /* --- Gift Box Section (Pahalata slide wenna haduwa) --- */
         #gift-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -61,8 +63,19 @@
             transition: transform 1.2s cubic-bezier(0.9, 0, 0.1, 1);
         }
 
-        .ribbon-v { position: absolute; width: 70px; height: 100%; background: var(--gold); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-        .ribbon-h { position: absolute; width: 100%; height: 70px; background: var(--gold); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+        .ribbon-v {
+            position: absolute;
+            width: 70px; height: 100%;
+            background: var(--gold);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .ribbon-h {
+            position: absolute;
+            width: 100%; height: 70px;
+            background: var(--gold);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
 
         .tap-circle {
             width: 140px; height: 140px;
@@ -75,6 +88,7 @@
             align-items: center;
             cursor: pointer;
             border: 8px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             animation: pulse 2s infinite;
         }
 
@@ -84,20 +98,30 @@
             100% { transform: scale(1); }
         }
 
-        .unlocked #gift-overlay { transform: translateY(100%); }
+        /* Unlocked state - Pahalata slide wenawa anniversary eka penna */
+        .unlocked #gift-overlay {
+            transform: translateY(100%); 
+        }
 
         /* --- Main Content --- */
         .card-content {
-            padding: 40px 15px;
+            padding: 60px 20px;
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             opacity: 0;
-            transition: opacity 1s 0.5s;
+            transition: opacity 1.5s ease-in;
+            z-index: 10;
         }
 
-        .unlocked .card-content { opacity: 1; }
+        .unlocked .card-content {
+            opacity: 1;
+        }
 
-        h1 { color: var(--dark-pink); font-size: 2.2rem; margin-bottom: 20px; }
+        h1 {
+            color: var(--dark-pink);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
 
         /* Quote and Hero Image Section */
         .hero-section {
@@ -122,60 +146,120 @@
             padding: 0 10px;
         }
 
-        /* --- Fixed Calendar --- */
+        /* --- Fixed Calendar with Heart --- */
         .calendar-card {
             background: white;
+            margin: 0 auto 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: var(--card-shadow);
             overflow: hidden;
-            border: 2px solid var(--pink);
+            border: 3px solid var(--pink);
             margin-bottom: 30px;
         }
 
-        .cal-header { background: var(--pink); color: white; padding: 12px; font-weight: bold; }
-        
+        .cal-header {
+            background: var(--pink);
+            color: white;
+            padding: 18px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
         .cal-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            padding: 10px;
+            padding: 15px;
+            gap: 5px;
         }
 
-        .day-label { font-weight: bold; color: var(--pink); font-size: 0.8rem; padding: 5px 0; }
-        .date { padding: 12px 0; font-size: 0.9rem; position: relative; color: #333; }
+        .day-label { font-weight: bold; color: var(--pink); font-size: 0.85rem; }
+        .date { padding: 12px 0; font-size: 1rem; position: relative; color: #444; }
         
-        .marked { color: white !important; font-weight: bold; }
+        /* Heta date eke hart eka watila clear widiyata penna haduwa */
+        .marked {
+            color: white !important;
+            z-index: 2;
+            font-weight: bold;
+        }
+
         .marked::before {
-            content: '❤️';
+            content: '❤';
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.8rem;
+            color: var(--pink);
+            font-size: 2.6rem;
             z-index: -1;
         }
 
         /* --- Photo Gallery --- */
+        .gallery-container {
+            margin: 50px 0;
+            position: relative;
+        }
+
         .gallery-scroll {
             display: flex;
             overflow-x: auto;
-            gap: 15px;
-            padding: 10px 0;
+            gap: 25px;
+            padding: 20px;
+            scroll-snap-type: x mandatory;
             scrollbar-width: none;
+            -ms-overflow-style: none; /* IE/Edge */
         }
+
+        .gallery-scroll::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
 
         .photo-card {
-            flex: 0 0 240px;
+            flex: 0 0 290px;
+            height: 390px;
             background: white;
-            padding: 8px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            scroll-snap-align: center;
             transform: rotate(var(--r));
+            transition: transform 0.3s ease;
+            border: 1px solid #eee;
         }
 
-        .photo-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 5px; }
+        .photo-card:hover { transform: rotate(0deg) scale(1.05); }
 
-        .footer-wish { margin: 30px 0; font-weight: bold; color: var(--dark-pink); }
+        .photo-card img {
+            width: 100%;
+            height: 88%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
 
-        .heart { position: fixed; color: var(--pink); z-index: 1; pointer-events: none; }
+        .photo-caption {
+            margin-top: 12px;
+            font-size: 0.95rem;
+            color: #555;
+            font-style: italic;
+        }
+
+        .footer-message {
+            margin: 60px 20px;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #444;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: fixed;
+            color: var(--pink);
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
@@ -212,30 +296,64 @@
             </div>
         </div>
 
-        <div class="gallery-scroll">
-            <div class="photo-card" style="--r: -2deg;"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400"><p>Day 01</p></div>
-            <div class="photo-card" style="--r: 2deg;"><img src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=400"><p>Laughter</p></div>
-            <div class="photo-card" style="--r: -1deg;"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=400"><p>Forever</p></div>
+        <div class="gallery-container">
+            <p style="color: #777; font-size: 0.95rem; margin-bottom: 10px;">Swipe for our memories ➔</p>
+            <div class="gallery-scroll">
+                <div class="photo-card" style="--r: -3deg;">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" alt="Memory 1">
+                    <div class="photo-caption">Our Special Day</div>
+                </div>
+                <div class="photo-card" style="--r: 2deg;">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" alt="Memory 2">
+                    <div class="photo-caption">Endless Laughter</div>
+                </div>
+                <div class="photo-card" style="--r: -1deg;">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" alt="Memory 3">
+                    <div class="photo-caption">Adventures Together</div>
+                </div>
+                <div class="photo-card" style="--r: 4deg;">
+                    <img src="https://images.unsplash.com/photo-1516589174184-c68d19671eff?w=500" alt="Memory 4">
+                    <div class="photo-caption">Pure Happiness</div>
+                </div>
+            </div>
         </div>
 
-        <div class="footer-wish">
-            <p><strong>With Love, <br> Your Wifey ❤️</strong></p>
+        <div class="footer-message">
+            <p>"Thank you for two incredible years. Cheers to forever!"</p>
+            <br>
+            <p><strong>Forever Yours, <br> Your Wifey ❤️</strong></p>
         </div>
     </div>
 
     <script>
         function openCard() {
+            // Unlock card & start animations
             document.body.classList.add('unlocked');
 
-            // Confetti
-            var end = Date.now() + (4 * 1000);
-            (function frame() {
-              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 } });
-              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 } });
-              if (Date.now() < end) { requestAnimationFrame(frame); }
-            }());
+            // 1. Confetti (Kola kali) Effect
+            var duration = 6 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 35, spread: 360, ticks: 70, zIndex: 0 };
 
-            setInterval(createHeart, 400);
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 60 * (timeLeft / duration);
+              // Fire from two sides
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+
+            // 2. Continuous Heart Rain
+            setInterval(createHeart, 350);
         }
 
         function createHeart() {
@@ -243,14 +361,26 @@
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
+            // Randomize heart size slightly
             heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            heart.style.opacity = Math.random() * 0.5 + 0.3; // Soft opacity
             document.body.appendChild(heart);
 
             let pos = 0;
-            const id = setInterval(() => {
-                if (pos > 1000) { clearInterval(id); heart.remove(); }
-                else { pos += 1.5; heart.style.top = 100 - (pos/10) + 'vh'; }
-            }, 10);
+            let speed = Math.random() * 2 + 2; // Random speed
+            const id = setInterval(frame, 10);
+            function frame() {
+                if (pos > 1000) {
+                    clearInterval(id);
+                    heart.remove();
+                } else {
+                    pos += speed;
+                    // Floating upwards
+                    heart.style.top = 100 - (pos/10) + 'vh';
+                    // Slight sideways wobble
+                    heart.style.marginLeft = Math.sin(pos/20) * 10 + 'px';
+                }
+            }
         }
     </script>
 </body>
