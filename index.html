@@ -3,234 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret For You</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
+    <title>Happy 2nd Anniversary!</title>
     <style>
         :root {
-            --primary: #d4a373; 
-            --accent: #e29578;  
-            --bg-light: #fdfaf9;
-            --text-dark: #5e503f;
-            --env-color: #ffffff; 
-            --env-dark: #f8edeb;
-            --whatsapp-green: #25D366;
-            --main-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=1000');
+            --pink: #ff4d6d;
+            --gold: #ffb703;
+            --white: #fff5f5;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
-
-        /* --- FALLING ELEMENTS --- */
-        .petal {
-            position: fixed; top: -10%; pointer-events: none; z-index: 4000;
-            opacity: 0.6; animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(0vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', cursive, sans-serif;
+            background: #ffe5ec;
+            overflow-x: hidden;
         }
 
-        /* --- ENVELOPE STAGE --- */
-        #invitation-intro {
-            height: 100vh; display: flex; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), var(--main-image) center/cover;
-            position: fixed; width: 100%; z-index: 3000; transition: opacity 1.2s ease;
+        /* --- Gift Wrap & Ribbon Section --- */
+        #gift-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--pink);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1);
         }
+
+        .ribbon-v {
+            position: absolute;
+            width: 60px; height: 100%;
+            background: var(--gold);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .ribbon-h {
+            position: absolute;
+            width: 100%; height: 60px;
+            background: var(--gold);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .tap-circle {
+            width: 120px; height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            z-index: 1001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 5px solid var(--gold);
+            animation: pulse 1.5s infinite;
+            text-align: center;
+            font-weight: bold;
+            color: var(--pink);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- Main Card Content --- */
+        .card-content {
+            padding: 20px;
+            text-align: center;
+            opacity: 0;
+            transition: 1s;
+        }
+
+        h1 { color: var(--pink); font-size: 2.5rem; margin-top: 20px; }
         
-        .envelope-container {
-            width: 320px; height: 220px; position: relative; transform-style: preserve-3d;
-            cursor: pointer; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        /* --- Calendar --- */
+        .calendar {
+            background: white;
+            width: 250px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
-        .envelope-front {
-            position: absolute; width: 100%; height: 100%; background: var(--env-color);
-            backface-visibility: hidden; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid #eee;
+        .cal-header { background: var(--pink); color: white; padding: 10px; font-weight: bold; }
+        .cal-body { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            padding: 15px;
+            font-size: 0.9rem;
         }
-        #guest-name { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--accent); margin-top: 10px; }
-        
-        /* NEW: Secret Label Animation */
-        .tap-secret {
-            margin-top: 15px;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            color: var(--primary);
-            font-weight: 600;
-            animation: breathe 2s infinite ease-in-out;
-            opacity: 0.7;
-        }
-
-        @keyframes breathe {
-            0%, 100% { opacity: 0.4; transform: scale(0.95); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        .envelope-back { position: absolute; width: 100%; height: 100%; background: var(--env-dark); backface-visibility: hidden; transform: rotateY(180deg); }
-        .flap { position: absolute; top: 0; width: 100%; height: 0; border-top: 110px solid var(--env-dark); border-left: 160px solid transparent; border-right: 160px solid transparent; transform-origin: top; transition: 0.6s 0.8s; z-index: 8; }
-        
-        .envelope-container.open { transform: rotateY(180deg) scale(0.9); }
-        .envelope-container.open .flap { transform: rotateX(180deg); }
-
-        /* --- MAIN CONTENT --- */
-        #main-content { display: none; opacity: 0; transition: 1.5s; }
-        
-        header {
-            height: 50vh; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), var(--main-image) center/cover;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
+        .date { padding: 5px; position: relative; }
+        .mark { color: white; z-index: 1; }
+        .mark::after {
+            content: '❤️';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem;
+            z-index: -1;
         }
 
-        .proposal-card {
-            max-width: 550px; margin: -80px auto 40px; background: white; 
-            border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); overflow: hidden;
-            text-align: center; position: relative; border: 1px solid #f1e4e2;
+        /* --- Gallery --- */
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 20px;
+            scroll-snap-type: x mandatory;
+        }
+        .gallery img {
+            width: 280px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 5px solid white;
+            scroll-snap-align: center;
+            flex-shrink: 0;
         }
 
-        .card-image-top {
-            width: 100%; height: 200px; background: var(--main-image) center/cover;
-            border-bottom: 4px solid var(--env-dark);
+        /* --- Footer Wish --- */
+        .wish {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.6;
+            margin: 30px;
+            font-style: italic;
         }
 
-        .card-body { padding: 40px 30px; }
-        
-        .title-script { font-family: 'Dancing Script', cursive; font-size: 3.2rem; color: var(--accent); margin-bottom: 10px; }
-        .date-badge { display: inline-block; padding: 8px 25px; background: var(--env-dark); border-radius: 30px; font-weight: 600; font-size: 0.9rem; margin: 20px 0; }
-
-        .btn-action {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; max-width: 280px; margin: 15px auto;
-            padding: 16px; border-radius: 50px; text-decoration: none;
-            font-weight: 600; transition: 0.3s; border: none; cursor: pointer;
-        }
-        .btn-yes { background: var(--accent); color: white; box-shadow: 0 10px 20px rgba(226, 149, 120, 0.3); }
-        .btn-contact { background: white; color: var(--accent); border: 2px solid var(--accent); }
-
-        .reveal { opacity: 0; transform: translateY(20px); transition: 1s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 480px) {
-            .proposal-card { width: 90%; }
-            .title-script { font-size: 2.5rem; }
-        }
+        .unlocked #gift-overlay { transform: translateY(-100%); }
+        .unlocked .card-content { opacity: 1; }
     </style>
 </head>
 <body>
 
-    <div id="invitation-intro">
-        <div class="envelope-container" onclick="openInvitation()">
-            <div class="envelope-front">
-                <p style="letter-spacing: 3px; font-size: 0.6rem; color: #aaa;">DEAREST</p>
-                <div id="guest-name">Bridesmaid</div>
-                <div style="margin-top: 20px; width: 40px; height: 40px; background: var(--env-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
-                    <i class="fa-solid fa-heart"></i>
-                </div>
-                <p class="tap-secret">Tap to reveal my secret</p>
-            </div>
-            <div class="envelope-back"><div class="flap"></div></div>
-        </div>
+    <div id="gift-overlay" onclick="openCard()">
+        <div class="ribbon-v"></div>
+        <div class="ribbon-h"></div>
+        <div class="tap-circle">Tap to Open <br> 🎁</div>
     </div>
 
-    <div id="main-content">
-        <header>
-            <h1 class="title-script reveal" style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);">My Dearest Friend</h1>
-        </header>
-
-        <section>
-            <div class="proposal-card reveal" id="capture-card">
-                <div class="card-image-top"></div>
-                <div class="card-body">
-                    <p style="letter-spacing: 3px; font-size: 0.75rem; color: var(--primary);">I CAN'T SAY "I DO"</p>
-                    <h2 class="title-script">Without You!</h2>
-                    
-                    <p style="margin: 20px 0; line-height: 1.6; font-size: 0.95rem;">
-                        Life's biggest moments are better with friends like you. 
-                        As I step into this new chapter, I would be honored to have you by my side.
-                    </p>
-
-                    <h3 style="font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; color: #444;">Will you be my Bridesmaid?</h3>
-
-                    <div class="date-badge">MAY 2026 • FIRST WEEK</div>
-                    
-                    <p style="font-size: 0.85rem; color: #999;">
-                        <i class="fa-solid fa-location-dot"></i> Hikkaduwa, Sri Lanka
-                    </p>
-                </div>
+    <div class="card-content">
+        <h1>Happy 2nd Anniversary!</h1>
+        
+        <div class="calendar">
+            <div class="cal-header">March 2026</div>
+            <div class="cal-body">
+                <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+                <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
+                <span class="date mark">14</span> <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span>
+                <span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span>
             </div>
+        </div>
 
-            <div class="reveal" style="text-align: center; padding: 20px;">
-                <button class="btn-action btn-yes" onclick="location.href='https://wa.me/94765599166?text=YES! Count me in as your bridesmaid!'">
-                    <i class="fa-solid fa-check"></i> YES, I'M IN!
-                </button>
-                <button class="btn-action btn-contact" onclick="downloadInvitation()">
-                    <i class="fa-solid fa-download"></i> SAVE INVITATION
-                </button>
-            </div>
-        </section>
+        <p class="wish">"Two years of love, laughter, and beautiful memories. <br> Cheers to many more!"</p>
 
-        <footer style="text-align: center; padding: 60px 0; background: #fff;">
-            <p style="font-family: 'Dancing Script'; font-size: 1.8rem; color: var(--accent);">With Love, Hiruni</p>
-        </footer>
+        <div class="gallery">
+            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" alt="Couple 1">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" alt="Couple 2">
+            <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" alt="Couple 3">
+        </div>
+
+        <p style="color: var(--pink); font-weight: bold; margin-bottom: 50px;">Scroll for more photos ➔</p>
     </div>
 
     <script>
-        function openInvitation() {
-            document.querySelector('.envelope-container').classList.add('open');
+        function openCard() {
+            document.body.classList.add('unlocked');
+            
+            // Podi confetti effect ekak (optional browser alert ekak)
             setTimeout(() => {
-                document.getElementById('invitation-intro').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('invitation-intro').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                    setTimeout(() => { 
-                        document.getElementById('main-content').style.opacity = '1'; 
-                        reveal(); 
-                    }, 50);
-                }, 1000);
-            }, 1800);
+                alert("Surprise! ❤️ Happy Anniversary!");
+            }, 1000);
         }
-
-        function reveal() {
-            document.querySelectorAll(".reveal").forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
-            });
-        }
-        window.addEventListener("scroll", reveal);
-
-        function createPetals() {
-            const symbols = ['🌸', '✨', '💍', '🤍'];
-            for(let i=0; i<20; i++) {
-                let petal = document.createElement('div');
-                petal.className = 'petal';
-                petal.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.fontSize = (Math.random() * 10 + 15) + 'px';
-                petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
-                petal.style.animationDelay = (Math.random() * 5) + 's';
-                document.body.appendChild(petal);
-            }
-        }
-
-        function downloadInvitation() {
-            const card = document.getElementById("capture-card");
-            html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
-                const link = document.createElement("a");
-                link.download = "Bridesmaid_Proposal_Hiruni.png";
-                link.href = canvas.toDataURL();
-                link.click();
-            });
-        }
-
-        window.onload = () => {
-            const name = new URLSearchParams(window.location.search).get('name');
-            if(name) {
-                const clean = name.replace(/\+/g, ' ');
-                document.getElementById('guest-name').innerText = clean;
-            }
-            createPetals();
-        };
     </script>
 </body>
 </html>
