@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy 2nd Anniversary! (Animated)</title>
+    <title>Happy 2nd Anniversary!</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -23,7 +23,7 @@
             text-align: center;
         }
 
-        /* --- 1. Opening Animation & Gift Wrap --- */
+        /* --- Gift Wrap Section --- */
         #gift-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -33,8 +33,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 1s cubic-bezier(0.9, 0, 0.1, 1);
-            transform-origin: top; /* Important for scaling animation */
+            transition: all 1.2s cubic-bezier(0.9, 0, 0.1, 1);
         }
 
         .ribbon-v {
@@ -42,7 +41,6 @@
             width: 70px; height: 100%;
             background: var(--gold);
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            transition: transform 1s ease-out;
         }
 
         .ribbon-h {
@@ -50,10 +48,8 @@
             width: 100%; height: 70px;
             background: var(--gold);
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            transition: transform 1s ease-out;
         }
 
-        /* Wiggling Tap Button */
         .tap-circle {
             width: 140px; height: 140px;
             background: white;
@@ -65,8 +61,8 @@
             align-items: center;
             cursor: pointer;
             border: 8px solid var(--gold);
+            animation: pulse 2s infinite;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: wiggle 2.5s infinite; /* Continuous wiggle */
         }
 
         .tap-circle span {
@@ -76,53 +72,28 @@
             text-transform: uppercase;
         }
 
-        /* Wiggle Animation Keyframes */
-        @keyframes wiggle {
-            0% { transform: rotate(0deg) scale(1); }
-            10% { transform: rotate(5deg) scale(1.05); }
-            20% { transform: rotate(-5deg) scale(1.05); }
-            30% { transform: rotate(3deg) scale(1.02); }
-            40% { transform: rotate(-3deg) scale(1.02); }
-            50% { transform: rotate(0deg) scale(1); }
-            100% { transform: rotate(0deg) scale(1); }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 183, 3, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(255, 183, 3, 0); }
+            100% { transform: scale(1); }
         }
 
-        /* --- 2. Fade-In Effects --- */
+        /* --- Card Content --- */
         .card-content {
             padding: 40px 20px;
-            opacity: 0; /* Hidden initially */
+            opacity: 0;
             transform: scale(0.8);
             transition: 1.5s ease-out;
-            visibility: hidden; /* Hidden until unlocked */
         }
 
-        /* Elements to fade in sequentially */
-        .card-content > * {
-            opacity: 0;
-            transform: translateY(30px); /* Slide up */
-            transition: opacity 1s, transform 1s;
-        }
-
-        /* Unlocked State */
         .unlocked #gift-overlay {
-            transform: translateY(-100%) scale(0.7) rotate(-5deg); /* Opening transition */
+            transform: translateY(-100%) rotate(-5deg);
         }
-
-        .unlocked .ribbon-v { transform: translateY(-50%) rotate(45deg); }
-        .unlocked .ribbon-h { transform: translateX(50%) rotate(-45deg); }
 
         .unlocked .card-content {
             opacity: 1;
             transform: scale(1);
-            visibility: visible;
         }
-
-        /* Delaying the sequential fade-in */
-        .unlocked .card-content h1 { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
-        .unlocked .card-content .sub-text { opacity: 1; transform: translateY(0); transition-delay: 1.2s; }
-        .unlocked .card-content .calendar-card { opacity: 1; transform: translateY(0); transition-delay: 1.9s; }
-        .unlocked .card-content .gallery-container { opacity: 1; transform: translateY(0); transition-delay: 2.6s; }
-        .unlocked .card-content .footer-message { opacity: 1; transform: translateY(0); transition-delay: 3.3s; }
 
         h1 {
             color: var(--dark-pink);
@@ -206,10 +177,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             scroll-snap-align: center;
             transform: rotate(var(--r));
-            transition: transform 0.3s ease; /* Smooth hover */
         }
-
-        .photo-card:hover { transform: rotate(0deg) scale(1.05); }
 
         .photo-card img {
             width: 100%;
@@ -301,7 +269,7 @@
             // Unlock the card
             document.body.classList.add('unlocked');
 
-            // 1. Confetti (Kola kali) Effect
+            // 1. Kola kali (Confetti) Effect
             var duration = 5 * 1000;
             var animationEnd = Date.now() + duration;
             var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
@@ -318,6 +286,7 @@
               }
 
               var particleCount = 50 * (timeLeft / duration);
+              // පාට පාට කොළ කෑලි දෙපැත්තෙන් විදිනවා
               confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
               confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
             }, 250);
@@ -335,6 +304,7 @@
             heart.style.opacity = Math.random();
             document.body.appendChild(heart);
 
+            // Floating animation for hearts
             let pos = 0;
             const id = setInterval(frame, 10);
             function frame() {
