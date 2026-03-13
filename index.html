@@ -12,8 +12,8 @@
             --dark-pink: #c9184a;
             --gold: #ffb703;
             --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            /* Oya deepu Google Drive background image eka */
-            --bg-image: url('https://lh3.googleusercontent.com/d/1acfIgoow2_9MfZ5HdGbX3glaAAsK72uF');
+            /* Oya deepu Google Drive background image eka (Already direct load wena widiyata hadala thiyenne) */
+            --bg-image: url('https://drive.google.com/uc?export=view&id=1acfIgoow2_9MfZ5HdGbX3glaAAsK72uF');
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,7 +50,7 @@
             z-index: -1;
         }
 
-        /* --- Gift Wrap Section --- */
+        /* --- Gift Wrap Section (Wiggle Animation ekka) --- */
         #gift-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -73,13 +73,16 @@
             justify-content: center; align-items: center;
             cursor: pointer; border: 8px solid var(--gold);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: pulse 2s infinite;
+            animation: wigle 2s infinite; /* Continuos wigle */
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes wigle {
+            0% { transform: rotate(0deg) scale(1); }
+            10% { transform: rotate(5deg) scale(1.05); }
+            20% { transform: rotate(-5deg) scale(1.05); }
+            30% { transform: rotate(3deg) scale(1.02); }
+            40% { transform: rotate(-3deg) scale(1.02); }
+            50% { transform: rotate(0deg) scale(1); }
         }
 
         .unlocked #gift-overlay { transform: translateY(100%); }
@@ -171,27 +174,48 @@
             z-index: -1;
         }
 
-        /* --- Photo Gallery --- */
+        /* --- Photo Gallery (Animation logic ekka) --- */
         .gallery-scroll {
             display: flex; overflow-x: auto;
             gap: 20px; padding: 20px 5px;
             scrollbar-width: none;
+            -ms-overflow-style: none; /* IE/Edge */
         }
 
-        .gallery-scroll::-webkit-scrollbar { display: none; }
+        .gallery-scroll::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
 
         .photo-card {
             flex: 0 0 260px;
             background: white; padding: 10px;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
-            transform: rotate(var(--r));
+            border: 1px solid #eee;
+            opacity: 0; /* Hidden initially */
+            transform: translateY(30px); /* Slide up effect */
+            transition: transform 0.3s ease; /* Smooth hover */
         }
+
+        .photo-card:hover { transform: rotate(0deg) scale(1.05); }
 
         .photo-card img {
             width: 100%; height: 320px;
             object-fit: cover; border-radius: 8px;
         }
+
+        /* Photo card opening animation keyframes */
+        @keyframes photofadeup {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+        }
+
+        /* Sequencing delays for each child */
+        .unlocked .photo-card {
+            animation: photofadeup 1s ease-out forwards;
+        }
+        .unlocked .photo-card:nth-child(1) { animation-delay: 2.3s; }
+        .unlocked .photo-card:nth-child(2) { animation-delay: 3s; }
+        .unlocked .photo-card:nth-child(3) { animation-delay: 3.7s; }
+
 
         .footer-message {
             margin: 40px 0;
@@ -242,13 +266,13 @@
 
         <div class="gallery-scroll">
             <div class="photo-card" style="--r: -3deg;">
-                <img src="https://lh3.googleusercontent.com/d/1zibq288QEn_IK48YebJgmXcIvIlk58IE" alt="Memory 1">
+                <img src="https://drive.google.com/uc?export=view&id=1zibq288QEn_IK48YebJgmXcIvIlk58IE" alt="Memory 1">
             </div>
             <div class="photo-card" style="--r: 2deg;">
-                <img src="https://lh3.googleusercontent.com/d/1K1t-qGSkCxNNGPqvjfmpSbCzx-XaVbJ9" alt="Memory 2">
+                <img src="https://drive.google.com/uc?export=view&id=1K1t-qGSkCxNNGPqvjfmpSbCzx-XaVbJ9" alt="Memory 2">
             </div>
             <div class="photo-card" style="--r: -1deg;">
-                <img src="https://lh3.googleusercontent.com/d/16wjzEXe56uQ_iQpp2CgbS9etpLGGhI5l" alt="Memory 3">
+                <img src="https://drive.google.com/uc?export=view&id=16wjzEXe56uQ_iQpp2CgbS9etpLGGhI5l" alt="Memory 3">
             </div>
         </div>
 
