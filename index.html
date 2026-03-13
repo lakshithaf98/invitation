@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy 2nd Anniversary!</title>
+    <title>Happy 2nd Anniversary! (Animated)</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
         :root {
             --pink: #ff4d6d;
+            --dark-pink: #c9184a;
             --gold: #ffb703;
             --white: #fff5f5;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Segoe UI', cursive, sans-serif;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
             background: #ffe5ec;
+            font-family: 'Segoe UI', cursive, sans-serif;
             overflow-x: hidden;
+            text-align: center;
         }
 
-        /* --- Gift Wrap & Ribbon Section --- */
+        /* --- 1. Opening Animation & Gift Wrap --- */
         #gift-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -30,111 +33,214 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1);
+            transition: all 1s cubic-bezier(0.9, 0, 0.1, 1);
+            transform-origin: top; /* Important for scaling animation */
         }
 
         .ribbon-v {
             position: absolute;
-            width: 60px; height: 100%;
+            width: 70px; height: 100%;
             background: var(--gold);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            transition: transform 1s ease-out;
         }
 
         .ribbon-h {
             position: absolute;
-            width: 100%; height: 60px;
+            width: 100%; height: 70px;
             background: var(--gold);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            transition: transform 1s ease-out;
         }
 
+        /* Wiggling Tap Button */
         .tap-circle {
-            width: 120px; height: 120px;
-            background: var(--white);
+            width: 140px; height: 140px;
+            background: white;
             border-radius: 50%;
             z-index: 1001;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            border: 5px solid var(--gold);
-            animation: pulse 1.5s infinite;
-            text-align: center;
+            border: 8px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: wiggle 2.5s infinite; /* Continuous wiggle */
+        }
+
+        .tap-circle span {
+            font-size: 14px;
+            color: var(--dark-pink);
             font-weight: bold;
-            color: var(--pink);
+            text-transform: uppercase;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        /* Wiggle Animation Keyframes */
+        @keyframes wiggle {
+            0% { transform: rotate(0deg) scale(1); }
+            10% { transform: rotate(5deg) scale(1.05); }
+            20% { transform: rotate(-5deg) scale(1.05); }
+            30% { transform: rotate(3deg) scale(1.02); }
+            40% { transform: rotate(-3deg) scale(1.02); }
+            50% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(0deg) scale(1); }
         }
 
-        /* --- Main Card Content --- */
+        /* --- 2. Fade-In Effects --- */
         .card-content {
-            padding: 20px;
-            text-align: center;
-            opacity: 0;
-            transition: 1s;
+            padding: 40px 20px;
+            opacity: 0; /* Hidden initially */
+            transform: scale(0.8);
+            transition: 1.5s ease-out;
+            visibility: hidden; /* Hidden until unlocked */
         }
 
-        h1 { color: var(--pink); font-size: 2.5rem; margin-top: 20px; }
-        
-        /* --- Calendar --- */
-        .calendar {
+        /* Elements to fade in sequentially */
+        .card-content > * {
+            opacity: 0;
+            transform: translateY(30px); /* Slide up */
+            transition: opacity 1s, transform 1s;
+        }
+
+        /* Unlocked State */
+        .unlocked #gift-overlay {
+            transform: translateY(-100%) scale(0.7) rotate(-5deg); /* Opening transition */
+        }
+
+        .unlocked .ribbon-v { transform: translateY(-50%) rotate(45deg); }
+        .unlocked .ribbon-h { transform: translateX(50%) rotate(-45deg); }
+
+        .unlocked .card-content {
+            opacity: 1;
+            transform: scale(1);
+            visibility: visible;
+        }
+
+        /* Delaying the sequential fade-in */
+        .unlocked .card-content h1 { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+        .unlocked .card-content .sub-text { opacity: 1; transform: translateY(0); transition-delay: 1.2s; }
+        .unlocked .card-content .calendar-card { opacity: 1; transform: translateY(0); transition-delay: 1.9s; }
+        .unlocked .card-content .gallery-container { opacity: 1; transform: translateY(0); transition-delay: 2.6s; }
+        .unlocked .card-content .footer-message { opacity: 1; transform: translateY(0); transition-delay: 3.3s; }
+
+        h1 {
+            color: var(--dark-pink);
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px white;
+        }
+
+        .sub-text {
+            color: #ff758f;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- Calendar Section --- */
+        .calendar-card {
             background: white;
-            width: 250px;
-            margin: 20px auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 280px;
+            margin: 0 auto 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             overflow: hidden;
+            border: 2px solid var(--pink);
         }
-        .cal-header { background: var(--pink); color: white; padding: 10px; font-weight: bold; }
-        .cal-body { 
-            display: grid; 
-            grid-template-columns: repeat(7, 1fr); 
+
+        .cal-header {
+            background: var(--pink);
+            color: white;
             padding: 15px;
-            font-size: 0.9rem;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
-        .date { padding: 5px; position: relative; }
-        .mark { color: white; z-index: 1; }
-        .mark::after {
-            content: '❤️';
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 15px;
+            gap: 5px;
+        }
+
+        .day-label { font-weight: bold; color: var(--pink); font-size: 0.8rem; }
+        .date { padding: 8px; font-size: 0.9rem; position: relative; }
+        
+        .marked {
+            color: white;
+            z-index: 2;
+        }
+
+        .marked::before {
+            content: '❤';
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.8rem;
+            color: var(--pink);
+            font-size: 2.2rem;
             z-index: -1;
         }
 
-        /* --- Gallery --- */
-        .gallery {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding: 20px;
-            scroll-snap-type: x mandatory;
-        }
-        .gallery img {
-            width: 280px;
-            height: 350px;
-            object-fit: cover;
-            border-radius: 15px;
-            border: 5px solid white;
-            scroll-snap-align: center;
-            flex-shrink: 0;
+        /* --- Photo Gallery --- */
+        .gallery-container {
+            margin: 40px 0;
         }
 
-        /* --- Footer Wish --- */
-        .wish {
-            font-size: 1.2rem;
-            color: #555;
-            line-height: 1.6;
-            margin: 30px;
+        .gallery-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+
+        .photo-card {
+            flex: 0 0 280px;
+            height: 380px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            scroll-snap-align: center;
+            transform: rotate(var(--r));
+            transition: transform 0.3s ease; /* Smooth hover */
+        }
+
+        .photo-card:hover { transform: rotate(0deg) scale(1.05); }
+
+        .photo-card img {
+            width: 100%;
+            height: 90%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .photo-caption {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
             font-style: italic;
         }
 
-        .unlocked #gift-overlay { transform: translateY(-100%); }
-        .unlocked .card-content { opacity: 1; }
+        .footer-message {
+            margin: 50px 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: fixed;
+            color: var(--pink);
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 99;
+        }
     </style>
 </head>
 <body>
@@ -142,42 +248,104 @@
     <div id="gift-overlay" onclick="openCard()">
         <div class="ribbon-v"></div>
         <div class="ribbon-h"></div>
-        <div class="tap-circle">Tap to Open <br> 🎁</div>
+        <div class="tap-circle">
+            <span>Open</span>
+            <div style="font-size: 40px;">🎁</div>
+        </div>
     </div>
 
     <div class="card-content">
         <h1>Happy 2nd Anniversary!</h1>
-        
-        <div class="calendar">
+        <p class="sub-text">To the world's best Husband ❤️</p>
+
+        <div class="calendar-card">
             <div class="cal-header">March 2026</div>
-            <div class="cal-body">
-                <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            <div class="cal-grid">
+                <div class="day-label">S</div><div class="day-label">M</div><div class="day-label">T</div><div class="day-label">W</div><div class="day-label">T</div><div class="day-label">F</div><div class="day-label">S</div>
+                
                 <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
                 <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
-                <span class="date mark">14</span> <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span>
+                <span class="date marked">14</span>
+                <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span>
                 <span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span>
             </div>
         </div>
 
-        <p class="wish">"Two years of love, laughter, and beautiful memories. <br> Cheers to many more!"</p>
-
-        <div class="gallery">
-            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" alt="Couple 1">
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" alt="Couple 2">
-            <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" alt="Couple 3">
+        <div class="gallery-container">
+            <p style="color: #888; font-size: 0.9rem;">Swipe for our memories ➔</p>
+            <div class="gallery-scroll">
+                <div class="photo-card" style="--r: -2deg;">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" alt="Memory 1">
+                    <div class="photo-caption">Where it all began...</div>
+                </div>
+                <div class="photo-card" style="--r: 3deg;">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" alt="Memory 2">
+                    <div class="photo-caption">Laughter & Joy</div>
+                </div>
+                <div class="photo-card" style="--r: -1deg;">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" alt="Memory 3">
+                    <div class="photo-caption">Together Forever</div>
+                </div>
+            </div>
         </div>
 
-        <p style="color: var(--pink); font-weight: bold; margin-bottom: 50px;">Scroll for more photos ➔</p>
+        <div class="footer-message">
+            <p>"I’m so lucky to have you by my side. <br> May our love grow stronger with each passing year!"</p>
+            <br>
+            <p><strong>With Love, <br> Your Wifey ❤️</strong></p>
+        </div>
     </div>
 
     <script>
         function openCard() {
+            // Unlock the card
             document.body.classList.add('unlocked');
-            
-            // Podi confetti effect ekak (optional browser alert ekak)
-            setTimeout(() => {
-                alert("Surprise! ❤️ Happy Anniversary!");
-            }, 1000);
+
+            // 1. Confetti (Kola kali) Effect
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+
+            // 2. Heart Rain (Background hearts)
+            setInterval(createHeart, 300);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+
+            let pos = 0;
+            const id = setInterval(frame, 10);
+            function frame() {
+                if (pos > 1000) {
+                    clearInterval(id);
+                    heart.remove();
+                } else {
+                    pos++;
+                    heart.style.top = 100 - (pos/10) + 'vh';
+                }
+            }
         }
     </script>
 </body>
